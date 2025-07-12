@@ -58,3 +58,5 @@
                    </div>
                  </div>
                </div>
+
+export default sendBroadcast
