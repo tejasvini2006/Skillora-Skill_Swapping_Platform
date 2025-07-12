@@ -1,4 +1,5 @@
-# Skillora 🚀
+![Banner](https://github.com/tejasvini2006/Skillora-Skill_Swapping_Platform/blob/main/Skillora_logo.jpg)
+
 
 **Skillora** is a modern web application for exchanging skills within a community. Users can offer and request skills, connect with others, and coordinate learning sessions through real-time chat. 
 
