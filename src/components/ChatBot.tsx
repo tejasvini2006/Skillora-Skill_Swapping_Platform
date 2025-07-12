@@ -29,7 +29,7 @@ const UserChat: React.FC<UserChatProps> = ({ swapId, otherUserId, onClose }) => 
   const otherUser = users.find(u => u.id === otherUserId);
 
   useEffect(() => {
-    // Load existing messages for this swap
+    // Load existing messages for this swap - NO AUTOMATED WELCOME MESSAGE
     const chatMessages = getChatMessages(swapId);
     setMessages(chatMessages);
   }, [swapId, getChatMessages]);
@@ -69,6 +69,8 @@ const UserChat: React.FC<UserChatProps> = ({ swapId, otherUserId, onClose }) => 
     addChatMessage(swapId, message);
     setMessages(prev => [...prev, message]);
     setNewMessage('');
+    
+    // NO AUTOMATED RESPONSES - REMOVED ALL SIMULATION CODE
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

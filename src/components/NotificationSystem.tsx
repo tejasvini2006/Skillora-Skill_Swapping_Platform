@@ -153,7 +153,7 @@ const NotificationSystem: React.FC<NotificationSystemProps> = ({ onSwapAccepted 
         }));
       });
 
-      // Check for platform messages
+      // Check for platform messages from admin
       const platformMessages = getPlatformMessages();
       const newPlatformMessages = platformMessages.filter(msg => 
         new Date(msg.timestamp) > new Date(lastChecked) &&
