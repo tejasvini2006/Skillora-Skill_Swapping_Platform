@@ -1,13 +1,15 @@
 import React from 'react';
 import { Users, Home, User, MessageCircle, Settings, LogOut } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import NotificationSystem from './NotificationSystem';
 
 interface HeaderProps {
   currentPage: string;
   setCurrentPage: (page: 'dashboard' | 'browse' | 'profile' | 'swaps' | 'admin') => void;
+  onSwapAccepted?: (swap: any) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => {
+const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage, onSwapAccepted }) => {
   const { user, logout } = useAuth();
 
   const navItems = [
@@ -49,6 +51,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => {
           </div>
 
           <div className="flex items-center space-x-4">
+            <NotificationSystem onSwapAccepted={onSwapAccepted} />
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold shadow-lg">
                 {user?.name?.charAt(0)?.toUpperCase()}

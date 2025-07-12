@@ -3,7 +3,7 @@ import { MessageCircle, Check, X, Clock, Star, Trash2, User } from 'lucide-react
 import { useData } from '../contexts/DataContext';
 import { useAuth } from '../contexts/AuthContext';
 import FeedbackModal from './FeedbackModal';
-import ChatBot from './ChatBot';
+import UserChat from './ChatBot';
 
 const SwapRequests: React.FC = () => {
   const { user } = useAuth();
@@ -233,7 +233,7 @@ const SwapRequests: React.FC = () => {
       )}
 
       {showChat && chatSwap && (
-        <ChatBot
+        <UserChat
           swapId={chatSwap.id}
           otherUserId={chatSwap.fromUserId === user?.id ? chatSwap.toUserId : chatSwap.fromUserId}
           onClose={() => {

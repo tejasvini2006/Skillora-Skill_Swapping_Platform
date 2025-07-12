@@ -9,6 +9,8 @@ import BrowseUsers from './components/BrowseUsers';
 import Profile from './components/Profile';
 import SwapRequests from './components/SwapRequests';
 import AdminPanel from './components/AdminPanel';
+import SwapAcceptedLanding from './components/SwapAcceptedLanding';
+import UserChat from './components/ChatBot';
 
 type Page = 'dashboard' | 'browse' | 'profile' | 'swaps' | 'admin';
 
@@ -16,7 +18,19 @@ function AppContent() {
   const { user } = useAuth();
   const [currentPage, setCurrentPage] = useState<Page>('dashboard');
   const [showLogin, setShowLogin] = useState(true);
+  const [showSwapAcceptedLanding, setShowSwapAcceptedLanding] = useState(false);
+  const [acceptedSwap, setAcceptedSwap] = useState<any>(null);
+  const [showChat, setShowChat] = useState(false);
 
+  const handleSwapAccepted = (swap: any) => {
+    setAcceptedSwap(swap);
+    setShowSwapAcceptedLanding(true);
+  };
+
+  const handleStartChat = () => {
+    setShowSwapAcceptedLanding(false);
+    setShowChat(true);
+  };
   if (!user) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
@@ -77,7 +91,11 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
-      <Header currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      <Header 
+        currentPage={currentPage} 
+        setCurrentPage={setCurrentPage}
+        onSwapAccepted={handleSwapAccepted}
+      />
       
       <main className="container mx-auto px-4 py-8">
         {currentPage === 'dashboard' && <Dashboard />}
@@ -86,6 +104,22 @@ function AppContent() {
         {currentPage === 'swaps' && <SwapRequests />}
         {currentPage === 'admin' && user.role === 'admin' && <AdminPanel />}
       </main>
+
+      {showSwapAcceptedLanding && acceptedSwap && (
+        <SwapAcceptedLanding
+          swap={acceptedSwap}
+          onClose={() => setShowSwapAcceptedLanding(false)}
+          onStartChat={handleStartChat}
+        />
+      )}
+
+      {showChat && acceptedSwap && (
+        <UserChat
+          swapId={acceptedSwap.id}
+          otherUserId={acceptedSwap.fromUserId === user.id ? acceptedSwap.toUserId : acceptedSwap.fromUserId}
+          onClose={() => setShowChat(false)}
+        />
+      )}
     </div>
   );
 }

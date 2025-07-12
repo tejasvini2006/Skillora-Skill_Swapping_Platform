@@ -120,7 +120,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (email: string, password: string): Promise<boolean> => {
     const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const foundUser = users.find((u: User) => u.email === email && !u.isBanned);
+    
+    // Special case for admin login
+    if (email === 'admin@demo.com' && password === '123456') {
+      const adminUser = users.find((u: User) => u.email === 'admin@demo.com');
+      if (adminUser) {
+        setUser(adminUser);
+        localStorage.setItem('currentUser', JSON.stringify(adminUser));
+        return true;
+      }
+    }
+    
+    // Regular user login (password is ignored for demo)
+    const foundUser = users.find((u: User) => u.email === email && !u.isBanned && u.role !== 'admin');
     
     if (foundUser) {
       setUser(foundUser);
@@ -132,6 +144,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signup = async (userData: Partial<User> & { password: string; role?: 'user' | 'admin' }): Promise<boolean> => {
     const users = JSON.parse(localStorage.getItem('users') || '[]');
+    
+    // Prevent admin account creation
+    if (userData.email === 'admin@demo.com' || userData.role === 'admin') {
+      return false;
+    }
     
     if (users.find((u: User) => u.email === userData.email)) {
       return false;
@@ -148,7 +165,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       isPublic: true,
       rating: 5.0,
       totalSwaps: 0,
-      role: userData.role || 'user',
+      role: 'user',
       isBanned: false,
       createdAt: new Date().toISOString(),
     };

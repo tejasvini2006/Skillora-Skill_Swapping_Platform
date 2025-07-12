@@ -8,7 +8,7 @@ const SignUpForm: React.FC = () => {
     email: '',
     password: '',
     location: '',
-    role: 'user' as 'user' | 'admin',
+    role: 'user' as 'user',
   });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
@@ -46,43 +46,6 @@ const SignUpForm: React.FC = () => {
       </div>
 
       {/* Account Type Selection */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-300 mb-3">
-          Account Type
-        </label>
-        <div className="grid grid-cols-2 gap-3">
-          <button
-            type="button"
-            onClick={() => setFormData({ ...formData, role: 'user' })}
-            className={`flex items-center justify-center space-x-2 p-3 border-2 rounded-lg transition-all duration-300 ${
-              formData.role === 'user'
-                ? 'border-cyan-500 bg-cyan-500/10 text-cyan-400'
-                : 'border-gray-600 hover:border-gray-500 text-gray-300'
-            }`}
-          >
-            <User size={20} />
-            <span className="font-medium">User</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setFormData({ ...formData, role: 'admin' })}
-            className={`flex items-center justify-center space-x-2 p-3 border-2 rounded-lg transition-all duration-300 ${
-              formData.role === 'admin'
-                ? 'border-red-500 bg-red-500/10 text-red-400'
-                : 'border-gray-600 hover:border-gray-500 text-gray-300'
-            }`}
-          >
-            <Shield size={20} />
-            <span className="font-medium">Admin</span>
-          </button>
-        </div>
-        <p className="text-xs text-gray-400 mt-2">
-          {formData.role === 'admin' 
-            ? 'Admin accounts have moderation and management privileges'
-            : 'Regular user account for skill swapping'
-          }
-        </p>
-      </div>
 
       {error && (
         <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm backdrop-blur-sm">
@@ -144,7 +107,7 @@ const SignUpForm: React.FC = () => {
 
         <div>
           <label className="block text-sm font-medium text-gray-300 mb-1">
-            {formData.role === 'admin' ? 'Department/Role (Optional)' : 'Location (Optional)'}
+            Location (Optional)
           </label>
           <input
             type="text"
@@ -152,20 +115,16 @@ const SignUpForm: React.FC = () => {
             value={formData.location}
             onChange={handleChange}
             className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-white placeholder-gray-400 transition-all duration-300"
-            placeholder={formData.role === 'admin' ? 'e.g., Content Moderation, User Support' : 'City, Country'}
+            placeholder="City, Country"
           />
         </div>
 
         <button
           type="submit"
           disabled={isLoading}
-          className={`w-full py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-300 disabled:opacity-50 shadow-lg ${
-            formData.role === 'admin'
-              ? 'bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 focus:ring-red-500 shadow-red-500/25'
-              : 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:from-cyan-600 hover:to-blue-600 focus:ring-cyan-500 shadow-cyan-500/25'
-          }`}
+          className="w-full py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-300 disabled:opacity-50 shadow-lg bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:from-cyan-600 hover:to-blue-600 focus:ring-cyan-500 shadow-cyan-500/25"
         >
-          {isLoading ? 'Creating Account...' : `Create ${formData.role === 'admin' ? 'Admin' : 'User'} Account`}
+          {isLoading ? 'Creating Account...' : 'Create Account'}
         </button>
       </div>
     </form>
